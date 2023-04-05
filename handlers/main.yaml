@@ -1,0 +1,4 @@
+- name: Enable service xrdp
+  ansible.builtin.service:
+    name: xrdp
+    enabled: yes

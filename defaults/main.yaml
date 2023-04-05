@@ -1,0 +1,4 @@
+username: ubuntu
+password: ubuntu
+# Post reboot delay for reboot module on Ansible >=2.7 only
+host_preparation_reboot_post_delay: 60

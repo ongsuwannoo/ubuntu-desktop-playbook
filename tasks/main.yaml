@@ -1,0 +1,31 @@
+- name: Update repositories cache
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Install Ubuntu Desktop
+  package:
+    name: ubuntu-desktop
+    state: present
+  async: 1000
+  poll: 0
+  register: install_ubuntu_desktop
+
+- name: 'Install Ubuntu Desktop - check on task'
+  async_status:
+    jid: "{{ install_ubuntu_desktop.ansible_job_id }}"
+  register: job_result
+  until: job_result.finished
+  retries: 50
+
+- name: Install XRDP
+  package:
+    name: xrdp
+    state: present
+  notify: Enable service xrdp
+
+- name: Enable login with password
+  user:
+    name: "{{ username }}"
+    password: "{{ password | password_hash('sha512') }}"
+
+- include_tasks: reboot.yml
