@@ -17,6 +17,10 @@
   until: job_result.finished
   retries: 50
 
+- name: Print the result of the installation process
+  debug:
+    var: job_result.stdout_lines
+
 - name: Install XRDP
   package:
     name: xrdp
